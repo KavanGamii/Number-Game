@@ -54,7 +54,7 @@ export const App: React.FC = () => {
       e.returnValue = ''; // Standard for most browsers to show a prompt
     };
 
-    const handlePopState = (e: PopStateEvent) => {
+    const handlePopState = (_e: PopStateEvent) => {
       // Prevent going back by pushing state again
       window.history.pushState(null, '', window.location.href);
       alert("Please use the Exit button in the top left to leave the game safely.");

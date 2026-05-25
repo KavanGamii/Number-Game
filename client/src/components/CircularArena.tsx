@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crown, HelpCircle, Lock, Eye, EyeOff, Play, ArrowUp, ArrowDown, SmilePlus } from 'lucide-react';
+import { Crown, HelpCircle, Lock, EyeOff, Play, ArrowUp, ArrowDown } from 'lucide-react';
 import { audio } from '../utils/audio';
 import type { Room, Player } from '../types/game';
 
@@ -12,6 +12,7 @@ interface CircularArenaProps {
   error?: string | null;
   reactions?: {id: string, playerId: string, emoji: string}[];
   onSendReaction?: (emoji: string) => void;
+  onSubmitInterrogation?: () => void;
 }
 
 export const CircularArena: React.FC<CircularArenaProps> = ({
@@ -21,7 +22,7 @@ export const CircularArena: React.FC<CircularArenaProps> = ({
   onSubmitGuess,
   error,
   reactions = [],
-  onSendReaction,
+  onSubmitInterrogation,
 }) => {
   const [secretInput, setSecretInput] = useState('');
   const [guessInput, setGuessInput] = useState('');
@@ -88,7 +89,7 @@ export const CircularArena: React.FC<CircularArenaProps> = ({
         
         // Extract the hint from the guess history (hints received from opponents)
         const hintsArray = last.hints ? Object.values(last.hints) : [];
-        let primaryHint = hintsArray[0] || null;
+        let primaryHint: string | null = hintsArray[0] || null;
         if (hintsArray.includes('CORRECT')) primaryHint = 'WINNER';
         
         // If the round ended because of this guess, it's a winner
@@ -376,12 +377,12 @@ export const CircularArena: React.FC<CircularArenaProps> = ({
                                 />
                                 <button type="submit" className="absolute right-2 top-2 bottom-2 bg-primary hover:bg-primary/80 text-white font-black uppercase tracking-widest rounded-lg px-4 text-[10px] md:text-xs shadow-lg transition-transform hover:scale-105 active:scale-95">GO</button>
                               </div>
-                              {me?.powerUps?.interrogation && onSubmitInterrogation && (
+                              {onSubmitInterrogation && false && (
                                 <button
                                   type="button"
                                   onClick={() => {
                                     audio.playChipClack();
-                                    onSubmitInterrogation();
+                                    onSubmitInterrogation?.();
                                   }}
                                   className="mt-3 w-full border border-sky-500/50 text-sky-400 bg-sky-900/20 hover:bg-sky-900/40 rounded-xl py-2 font-black uppercase tracking-widest text-[10px] md:text-xs transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(56,189,248,0.3)]"
                                 >
@@ -514,4 +515,5 @@ export const CircularArena: React.FC<CircularArenaProps> = ({
 };
 
 export default CircularArena;
+
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Trophy, History, MessageSquare, Crown, Medal, X } from 'lucide-react';
+import { ArrowLeft, Trophy, History, MessageSquare, Crown, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CircularArena } from '../components/CircularArena';
 import { ChatPanel } from '../components/ChatPanel';
 import { useSocket } from '../context/SocketContext';
-import { audio } from '../utils/audio';
+
 import type { Room } from '../types/game';
 
 interface GameScreenProps {
@@ -81,12 +81,6 @@ export const GameScreen: React.FC<GameScreenProps> = ({
 
   const sortedPlayers = [...room.players].sort((a, b) => b.score - a.score);
 
-  const getRankIcon = (rank: number) => {
-    if (rank === 0) return <Crown size={14} className="text-warning" />;
-    if (rank === 1) return <Medal size={14} className="text-gray-300" />;
-    if (rank === 2) return <Medal size={14} className="text-amber-700" />;
-    return <span className="font-mono text-textMuted/50 text-[10px] font-bold">#{rank + 1}</span>;
-  };
 
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-6 relative overflow-x-hidden">
@@ -219,7 +213,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
       </div>
 
       {/* Fixed Emoji Toolbar */}
-      {/* {!room.players.find(p => p.id === currentPlayerId)?.isEliminated && room.status === 'playing' && (
+      {!room.players.find(p => p.id === currentPlayerId)?.isEliminated && room.status === 'playing' && (
         <div className="fixed left-4 lg:left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3 bg-black/80 backdrop-blur-xl px-2 py-4 rounded-full border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
           {['🤬', '🎯', '😱', '🤡'].map(emoji => (
             <button 
@@ -234,7 +228,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
             </button>
           ))}
         </div>
-      )} */}
+      )}
 
       {/* Mobile Chat Button */}
       <div className="lg:hidden fixed bottom-6 right-6 z-40">
@@ -308,3 +302,4 @@ export const GameScreen: React.FC<GameScreenProps> = ({
 };
 
 export default GameScreen;
+

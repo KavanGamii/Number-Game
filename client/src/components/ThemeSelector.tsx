@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Palette, X, Check } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 
 interface Theme {
   id: string;
